@@ -2,20 +2,9 @@
     display: flex;
     flex-direction: row;
     width: 100%;
+    flex-wrap: wrap;
 }
 
     .thumbnail-list ::deep > .thumbnail {
         margin: 5px;
     }
-
-    .thumbnail-list:nth-child(3n) {
-        page-break-after: always;
-        break-after: always;
-    }
-
-@media(max-width: 641px) {
-    .thumbnail-list {
-        flex-direction: column;
-        align-items: center;
-    }
-}
