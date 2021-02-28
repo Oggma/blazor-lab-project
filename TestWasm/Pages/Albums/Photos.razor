@@ -1,5 +1,8 @@
 ﻿@page "/photos"
+@implements IAsyncDisposable
+@inject IJSRuntime JSRuntime
 @inject HttpClient Http
+
 
 @if (photos == null)
 {
@@ -7,26 +10,47 @@
 }
 else
 {
-    <div class="thumbnail-list">
-        @foreach (var ph in photos)
-        {
-            <Thumbnail Source="@ph.ThumbnailUrl"></Thumbnail>
-        }
+    <div class="ogm-photo-list-wrapper">
+        <div class="ogm-photo-list">
+            @foreach (var ph in photos)
+            {
+                <PhotoView PhotoSource="@ph" ShowAsThumbnail="true" OnThumbnailClick="@OnThumbnailClickHandler"></PhotoView>
+            }
+        </div>
+        <PhotoModal @ref="@photoModal" Id="photoModal"></PhotoModal>
     </div>
 }
+
+
 @code {
+    private Task<IJSObjectReference> _module;
+    private Task<IJSObjectReference> Module => _module ??= JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/albums/photo-modal.js").AsTask();
+
     private Photo[] photos;
+
+    private PhotoModal photoModal;
+
     protected override async Task OnInitializedAsync()
     {
         photos = await Http.GetFromJsonAsync<Photo[]>("https://jsonplaceholder.typicode.com/photos/?albumId=1");
     }
 
-    public class Photo
+    protected virtual async Task OnThumbnailClickHandler(Photo photo)
     {
-        public int AlbumId { get; set; }
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Url { get; set; }
-        public string ThumbnailUrl { get; set; }
+        photoModal.ShowedPhoto = photo;
+        await photoModal.ReRenderAsync();
+
+        var module = await Module;
+        photoModal.OnCloseButtonClick = new Func<ValueTask>(() => module.InvokeVoidAsync("close", "photoModal"));
+        await module.InvokeVoidAsync("open", "photoModal");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module != null)
+        {
+            var module = await _module;
+            await module.DisposeAsync();
+        }
     }
 }

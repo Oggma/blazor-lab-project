@@ -1,21 +1,16 @@
-﻿.thumbnail-list {
+﻿.ogm-photo-list {
     display: flex;
     flex-direction: row;
     width: 100%;
+    flex-wrap: wrap;
+    overflow: auto;
+    height: 90vh;
 }
 
-    .thumbnail-list ::deep > .thumbnail {
+    .ogm-photo-list ::deep > .ogm-photo-thumbnail {
         margin: 5px;
     }
 
-    .thumbnail-list:nth-child(3n) {
-        page-break-after: always;
-        break-after: always;
-    }
-
-@media(max-width: 641px) {
-    .thumbnail-list {
-        flex-direction: column;
-        align-items: center;
-    }
+.ogm-photo-list-wrapper {
+    display: flex;
 }

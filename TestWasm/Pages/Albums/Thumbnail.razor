@@ -1,9 +1,12 @@
 ﻿
-<div class="thumbnail">
+<div class="ogm-photo-thumbnail" @onclick="@OnClick">
     <img src="@Source" height="150" width="150" />
 </div>
 
 @code {
     [Parameter]
     public string Source { get; set; }
+
+    [Parameter]
+    public EventCallback OnClick { get; set; }
 }

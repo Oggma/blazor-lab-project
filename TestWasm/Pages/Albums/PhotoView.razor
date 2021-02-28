@@ -1,0 +1,25 @@
+﻿
+@if (ShowAsThumbnail)
+{
+    <Thumbnail Source="@PhotoSource.ThumbnailUrl" OnClick="@(async () => await OnThumbnailClick(PhotoSource))"></Thumbnail>
+}
+else
+{
+    <div class="ogm-photo">
+        <img src="@PhotoSource.Url" />
+    </div>
+}
+
+
+@code {   
+
+    [Parameter]
+    public bool ShowAsThumbnail { get; set; }
+
+    [Parameter]
+    public Photo PhotoSource { get; set; }
+
+    [Parameter]
+    public Func<Photo, Task> OnThumbnailClick { get; set; }
+
+}
