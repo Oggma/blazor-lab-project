@@ -1,0 +1,22 @@
+﻿
+<div class="ogm-modal" id="@Id">
+    <div class="ogm-modal-content">
+        @if (ShowedPhoto is not null)
+        {
+            <PhotoView PhotoSource="@ShowedPhoto"></PhotoView>
+        }
+    </div>
+</div>
+
+
+@code {    
+    public Photo ShowedPhoto { get; set; }
+
+    [Parameter]
+    public string Id { get; set; }
+
+    public async Task ReRenderAsync()
+    {
+        await InvokeAsync(StateHasChanged);
+    }
+}

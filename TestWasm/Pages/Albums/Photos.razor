@@ -10,21 +10,14 @@
 }
 else
 {
-    <div class="ogm-photo-list">
-        @foreach (var ph in photos)
-        {
-            <PhotoView PhotoSource="@ph" ShowAsThumbnail="true" OnThumbnailClick="@OnThumbnailClickHandler"></PhotoView>
-        }
-
-        @if (showedPhoto is not null)
-        {
-            <div class="ogm-modal" id="photoModal">
-                <div class="ogm-modal-content">
-                    <PhotoView PhotoSource="@showedPhoto"></PhotoView>
-                </div>
-            </div>
-        }
-
+    <div class="ogm-photo-list-wrapper">
+        <div class="ogm-photo-list">
+            @foreach (var ph in photos)
+            {
+                <PhotoView PhotoSource="@ph" ShowAsThumbnail="true" OnThumbnailClick="@OnThumbnailClickHandler"></PhotoView>
+            }
+        </div>
+        <PhotoModal @ref="@photoModal" Id="photoModal"></PhotoModal>
     </div>
 }
 
@@ -34,7 +27,8 @@ else
     private Task<IJSObjectReference> Module => _module ??= JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/albums/photo-modal.js").AsTask();
 
     private Photo[] photos;
-    private Photo showedPhoto;
+
+    private PhotoModal photoModal;
 
     protected override async Task OnInitializedAsync()
     {
@@ -43,8 +37,8 @@ else
 
     protected virtual async Task OnThumbnailClickHandler(Photo photo)
     {
-        showedPhoto = photo;
-        await InvokeAsync(StateHasChanged);
+        photoModal.ShowedPhoto = photo;
+        await photoModal.ReRenderAsync();
 
         var module = await Module;
         await module.InvokeVoidAsync("open", "photoModal");
