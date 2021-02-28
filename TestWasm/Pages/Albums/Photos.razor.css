@@ -1,10 +1,11 @@
-﻿.thumbnail-list {
+﻿.ogm-photo-list {
     display: flex;
     flex-direction: row;
     width: 100%;
     flex-wrap: wrap;
 }
 
-    .thumbnail-list ::deep > .thumbnail {
+    .ogm-photo-list ::deep > .ogm-photo-thumbnail {
         margin: 5px;
     }
+
