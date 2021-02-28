@@ -5,7 +5,7 @@
     height: 156px;
 }
 
-    .ogm-photo-thumbnail:hover {
+    .ogm-photo-thumbnail:hover, .ogm-photo-thumbnail:focus {
         background-color: #9d9b9b;
         cursor: pointer;
     }

@@ -14,7 +14,20 @@
 .ogm-modal-content {
     background-color: #fefefe;
     margin: 5% auto;
-    padding: 20px;
+    padding: 0px 5px 5px 5px;
     border: 1px solid #888;
     display: table;
+}
+
+.ogm-modal-close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.ogm-modal-close-btn:hover, .ogm-modal-close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }

@@ -3,17 +3,19 @@
     <div class="ogm-modal-content">
         @if (ShowedPhoto is not null)
         {
+            <span class="ogm-modal-close-btn" @onclick="@(async() => await OnCloseButtonClick())">&times</span>
             <PhotoView PhotoSource="@ShowedPhoto"></PhotoView>
         }
     </div>
 </div>
 
 
-@code {    
+@code {
     public Photo ShowedPhoto { get; set; }
 
     [Parameter]
     public string Id { get; set; }
+    public Func<ValueTask> OnCloseButtonClick { get; set; }
 
     public async Task ReRenderAsync()
     {

@@ -1,11 +1,15 @@
 ﻿export function open(modalId) {
-    var modal = document.getElementById(modalId);
-    console.log(modal);
+    let modal = document.getElementById(modalId);
     modal.style.display = "block";
 
     window.onclick = function (event) {
         if (event.target == modal) {
-            modal.style.display = "none";
+            close(modalId);
         }
     }
+}
+
+export function close(modalId) {
+    let modal = document.getElementById(modalId);
+    modal.style.display = "none";
 }

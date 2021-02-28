@@ -41,6 +41,7 @@ else
         await photoModal.ReRenderAsync();
 
         var module = await Module;
+        photoModal.OnCloseButtonClick = new Func<ValueTask>(() => module.InvokeVoidAsync("close", "photoModal"));
         await module.InvokeVoidAsync("open", "photoModal");
     }
 
