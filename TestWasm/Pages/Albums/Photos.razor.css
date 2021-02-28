@@ -3,6 +3,8 @@
     flex-direction: row;
     width: 100%;
     flex-wrap: wrap;
+    overflow: auto;
+    height: 90vh;
 }
 
     .ogm-photo-list ::deep > .ogm-photo-thumbnail {
