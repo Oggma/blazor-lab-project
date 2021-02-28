@@ -1,0 +1,11 @@
+﻿.thumbnail {
+    padding: 2px;
+    border: 1px solid #d4d1d1;
+    width: 156px;
+    height: 156px;
+}
+
+    .thumbnail:hover {
+        background-color: #9d9b9b;
+        cursor: pointer;
+    }

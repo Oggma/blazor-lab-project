@@ -1,0 +1,32 @@
+﻿@page "/photos"
+@inject HttpClient Http
+
+@if (photos == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="thumbnail-list">
+        @foreach (var ph in photos)
+        {
+            <Thumbnail Source="@ph.ThumbnailUrl"></Thumbnail>
+        }
+    </div>
+}
+@code {
+    private Photo[] photos;
+    protected override async Task OnInitializedAsync()
+    {
+        photos = await Http.GetFromJsonAsync<Photo[]>("https://jsonplaceholder.typicode.com/photos/?albumId=1");
+    }
+
+    public class Photo
+    {
+        public int AlbumId { get; set; }
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Url { get; set; }
+        public string ThumbnailUrl { get; set; }
+    }
+}
