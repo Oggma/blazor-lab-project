@@ -1,36 +1,25 @@
-﻿@implements IAsyncDisposable
-@inject IJSRuntime JSRuntime
-
-<Thumbnail Source="@PhotoSource.ThumbnailUrl" OnClick="@OnThumnailClickHandler"></Thumbnail>
-
-<div class="ogm-modal" id="photoModal">
-    <div class="ogm-modal-content">
-        <div class="ogm-photo">
-            <img src="@PhotoSource.Url" />
-        </div>
+﻿
+@if (ShowAsThumbnail)
+{
+    <Thumbnail Source="@PhotoSource.ThumbnailUrl" OnClick="@(async () => await OnThumbnailClick(PhotoSource))"></Thumbnail>
+}
+else
+{
+    <div class="ogm-photo">
+        <img src="@PhotoSource.Url" />
     </div>
-</div>
+}
 
 
-@code {
-    private Task<IJSObjectReference> _module;
-    private Task<IJSObjectReference> Module => _module ??= JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/albums/photo-modal.js").AsTask();
+@code {   
+
+    [Parameter]
+    public bool ShowAsThumbnail { get; set; }
 
     [Parameter]
     public Photo PhotoSource { get; set; }
 
-    protected virtual async Task OnThumnailClickHandler()
-    {
-        var module = await Module;
-        await module.InvokeVoidAsync("open", "photoModal");
-    }
+    [Parameter]
+    public Func<Photo, Task> OnThumbnailClick { get; set; }
 
-    public async ValueTask DisposeAsync()
-    {
-        if (_module != null)
-        {
-            var module = await _module;
-            await module.DisposeAsync();
-        }
-    }
 }
