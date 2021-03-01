@@ -12,26 +12,37 @@ export function initCanvas() {
         canvasTop = canvas.offsetTop + canvas.clientTop
 
     canvas.addEventListener('click', function (event) {
-        var x = event.pageX - canvasLeft,
+        let x = event.pageX - canvasLeft,
             y = event.pageY - canvasTop;
+
+        let stateHasChanged = false;
+
         // Collision detection between clicked offset and element.
         nodes.forEach(function (node) {
             if (Math.pow(x - node.x, 2) + Math.pow(y - node.y, 2) <= Math.pow(node.radius, 2)) {
-                node.isSelected = true;                
+                if (!node.isSelected) {
+                    node.isSelected = true;
+                    stateHasChanged = true;
+                }
             }
             else {
-                node.isSelected = false;
+                if (node.isSelected) {
+
+                    node.isSelected = false;
+                    stateHasChanged = true;
+                }
             }
         });
 
-        redrawCanvas();
+        if (stateHasChanged) {
+            redrawCanvas();
+        }
     }, false);
 }
 
 export function createNode(x, y, radius, color) {
     let node = new Node(x, y, radius, color);
     nodes.push(node);
-    console.log(nodes);
     drawNode(node);
 }
 
