@@ -2,7 +2,7 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JSRuntime
 
-<GraphToolbar OnCreateNodeClick="@CreateNode"></GraphToolbar>
+<GraphToolbar OnCreateNodeClick="@CreateNode" OnDeleteNodeClick="@DeleteSelectedNode"></GraphToolbar>
 <GraphCanvas></GraphCanvas>
 
 @code {
@@ -19,9 +19,15 @@
 
     protected virtual async Task CreateNode()
     {
-        var rnd = new Random();        
+        var rnd = new Random();
         var module = await Module;
         await module.InvokeVoidAsync("canvas.createNode", rnd.Next(100, 1000), rnd.Next(100, 1000), 50, "#074e67");
+    }
+
+    protected virtual async Task DeleteSelectedNode()
+    {
+        var module = await Module;
+        await module.InvokeVoidAsync("canvas.deleteSelectedNode", null);
     }
 
     public async ValueTask DisposeAsync()

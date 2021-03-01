@@ -1,8 +1,8 @@
 ﻿function Canvas() {
     let nodes = [];
-    let canvas = document.getElementById('canvas');
-    let context = canvas.getContext('2d');
-    let selectedColor = "#C74904";
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+    const selectedColor = "#C74904";
 
     (function initCanvas() {
         //Canvas init 
@@ -41,10 +41,18 @@
         }, false);
     }())
 
-    let createNode =  function createNode(x, y, radius, color) {
-        let node = new Node(x, y, radius, color);
+    const createNode =  function createNode(x, y, radius, color) {
+        const node = new Node(x, y, radius, color);
         nodes.push(node);
         drawNode(node);
+    }
+
+    const deleteSelectedNode = function deleteSelectedNode() {
+        const index = nodes.findIndex((node) => node.isSelected);
+        if (index > -1) {
+            nodes.splice(index, 1);
+        }
+        redrawCanvas();
     }
 
     function drawNode(node) {
@@ -71,7 +79,8 @@
     }
 
     return {
-        createNode: createNode
+        createNode: createNode,
+        deleteSelectedNode: deleteSelectedNode
     }
 }
 
