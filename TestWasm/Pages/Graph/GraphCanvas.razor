@@ -7,13 +7,14 @@
 
     @code {
         private Task<IJSObjectReference> _module;
-        private Task<IJSObjectReference> Module => _module ??= JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/graph/graph-layout-node.js").AsTask();
+        private Task<IJSObjectReference> Module => _module ??= JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/graph/canvas.js").AsTask();
 
         protected override async Task OnInitializedAsync()
         {
             var module = await Module;
-            await module.InvokeVoidAsync("initCanvas", null);
-            await module.InvokeVoidAsync("createNode", 300, 300, 50, "#074e67");
+            await module.InvokeVoidAsync("canvas.createNode", 300, 300, 50, "#074e67");
+            await module.InvokeVoidAsync("canvas.createNode", 600, 600, 50, "#074e67");
+            await module.InvokeVoidAsync("canvas.createNode", 400, 500, 50, "#074e67");
         }
 
         public async ValueTask DisposeAsync()
