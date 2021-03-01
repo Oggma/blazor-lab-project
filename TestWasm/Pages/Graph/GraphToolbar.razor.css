@@ -1,0 +1,12 @@
+﻿.ogm-graph-toolbar {
+    display: flex;
+    margin: 5px;
+}
+
+.ogm-graph-toolbar-button {
+    margin-right: 10px;
+}
+
+.ogm-graph-toolbar-textfield {
+    margin-right: 10px;
+}
