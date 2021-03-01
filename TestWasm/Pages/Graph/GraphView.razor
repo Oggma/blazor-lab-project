@@ -1,8 +1,35 @@
 ﻿@page "/graph"
+@implements IAsyncDisposable
+@inject IJSRuntime JSRuntime
 
-<GraphToolbar></GraphToolbar>
+<GraphToolbar OnCreateNodeClick="@CreateNode"></GraphToolbar>
 <GraphCanvas></GraphCanvas>
 
 @code {
+    private Task<IJSObjectReference> _module;
+    private Task<IJSObjectReference> Module => _module ??= JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/graph/canvas.js").AsTask();
 
+    protected override async Task OnInitializedAsync()
+    {
+        var module = await Module;
+        await module.InvokeVoidAsync("canvas.createNode", 300, 300, 50, "#074e67");
+        await module.InvokeVoidAsync("canvas.createNode", 600, 600, 50, "#074e67");
+        await module.InvokeVoidAsync("canvas.createNode", 400, 500, 50, "#074e67");
+    }
+
+    protected virtual async Task CreateNode()
+    {
+        var rnd = new Random();        
+        var module = await Module;
+        await module.InvokeVoidAsync("canvas.createNode", rnd.Next(100, 1000), rnd.Next(100, 1000), 50, "#074e67");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module != null)
+        {
+            var module = await _module;
+            await module.DisposeAsync();
+        }
+    }
 }
