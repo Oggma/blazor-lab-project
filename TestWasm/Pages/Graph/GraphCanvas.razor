@@ -13,7 +13,7 @@
         {
             var module = await Module;
             await module.InvokeVoidAsync("initCanvas", null);
-            await module.InvokeVoidAsync("createNode", 300, 300, 50);
+            await module.InvokeVoidAsync("createNode", 300, 300, 50, "#074e67");
         }
 
         public async ValueTask DisposeAsync()
