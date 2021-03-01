@@ -1,0 +1,27 @@
+﻿@implements IAsyncDisposable
+@inject IJSRuntime JSRuntime
+
+    <div class="canvas-wrapper">
+        <canvas class="canvas" id="layout-node"></canvas>
+    </div>
+
+    @code {
+        private Task<IJSObjectReference> _module;
+        private Task<IJSObjectReference> Module => _module ??= JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/graph/graph-layout-node.js").AsTask();
+
+        protected override async Task OnInitializedAsync()
+        {
+            var module = await Module;
+            await module.InvokeVoidAsync("initCanvas", null);
+            await module.InvokeVoidAsync("createNode", 300, 300, 50);
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (_module != null)
+            {
+                var module = await _module;
+                await module.DisposeAsync();
+            }
+        }
+    }
