@@ -1,8 +1,9 @@
-﻿function Canvas() {
+﻿import { Node } from './node.js'
+
+function Canvas() {
     let nodes = [];
     const canvas = document.getElementById('canvas');
     const context = canvas.getContext('2d');
-    const selectedColor = "#C74904";
 
     (function initCanvas() {
         //Canvas init 
@@ -89,15 +90,7 @@
         nodes.forEach(function (node) {
             drawNode(node);
         })
-    }
-
-    function Node(x, y, radius, color) {
-        this.x = x;
-        this.y = y;
-        this.radius = radius;
-        this.color = color;
-        this.isSelected = false;
-    }
+    }    
 
     return {
         createNode: createNode,
