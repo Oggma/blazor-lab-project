@@ -1,0 +1,15 @@
+﻿<div class="ogm-graph-toolbar">
+    <div class="ogm-graph-toolbar-button">
+        <button @onclick="OnCreateNodeClick">Create node</button>
+    </div>
+    <div class="ogm-graph-toolbar-button">
+        <button @onclick="OnDeleteNodeClick">Delete node</button>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public EventCallback OnCreateNodeClick { get; set; }
+
+    [Parameter]
+    public EventCallback OnDeleteNodeClick { get; set; }
+}
