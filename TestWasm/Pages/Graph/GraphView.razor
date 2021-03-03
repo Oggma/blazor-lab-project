@@ -21,7 +21,7 @@
     {
         var rnd = new Random();
         var module = await Module;
-        await module.InvokeVoidAsync("canvas.createNode", rnd.Next(100, 1000), rnd.Next(100, 1000), 50, "#074e67");
+        await module.InvokeVoidAsync("canvas.createNode", rnd.Next(100, 1800), rnd.Next(100, 800), 50, "#074e67");
     }
 
     protected virtual async Task DeleteSelectedNode()

@@ -74,8 +74,13 @@
     function drawNode(node) {
         context.beginPath();
         context.arc(node.x, node.y, node.radius, 0, Math.PI * 2, false);
-        context.fillStyle = node.isSelected ? selectedColor : node.color;
+        context.fillStyle = node.color;
         context.fill();
+        if (node.isSelected) {
+            context.arc(node.x, node.y, node.radius + 10, 0, Math.PI * 2, false);
+            context.fillStyle = 'rgba(0,0,0,0.15)';
+            context.fill();
+        }
     }
 
     function redrawCanvas() {
