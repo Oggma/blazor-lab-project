@@ -10,9 +10,19 @@
         canvas.height = canvas.parentElement.clientHeight;
 
         let canvasLeft = canvas.offsetLeft + canvas.clientLeft,
-            canvasTop = canvas.offsetTop + canvas.clientTop
+            canvasTop = canvas.offsetTop + canvas.clientTop        
 
-        canvas.addEventListener('click', function (event) {
+        const moveNodeHandler = function (event) {
+            let x = event.pageX - canvasLeft,
+                y = event.pageY - canvasTop;
+
+            const node = nodes.find((node) => node.isSelected);
+            node.x = x;
+            node.y = y;
+            redrawCanvas();
+        }
+
+        canvas.addEventListener('mousedown', function (event) {
             let x = event.pageX - canvasLeft,
                 y = event.pageY - canvasTop;
 
@@ -38,10 +48,16 @@
             if (stateHasChanged) {
                 redrawCanvas();
             }
+
+            canvas.addEventListener('mousemove', moveNodeHandler, false);
         }, false);
+
+        canvas.addEventListener('mouseup', function (event) {
+            canvas.removeEventListener('mousemove', moveNodeHandler, false);
+        }, false)
     }())
 
-    const createNode =  function createNode(x, y, radius, color) {
+    const createNode = function createNode(x, y, radius, color) {
         const node = new Node(x, y, radius, color);
         nodes.push(node);
         drawNode(node);
@@ -53,7 +69,7 @@
             nodes.splice(index, 1);
         }
         redrawCanvas();
-    }
+    }    
 
     function drawNode(node) {
         context.beginPath();
